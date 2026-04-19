@@ -10,5 +10,6 @@ Built in 3 hours to prove POPIA compliance for Liquid C2 and African banks.
 
 ## Run it
 ```bash
-pip install fastapi uvicorn
-uvicorn api:app --port 8000
+13  pip install fastapi uvicorn
+14  uvicorn api:app --port 8000
+```
