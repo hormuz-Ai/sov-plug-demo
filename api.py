@@ -1,16 +1,14 @@
-from fastapi import FastAPI, Request
-from fastapi.responses import JSONResponse
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
 
-app = FastAPI(title="Sovereignty Plug - Data Border")
+app = FastAPI()
+app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
 
 @app.post("/check")
-async def check(req: Request):
-    data = await req.json()
-    dest = data.get("destination_country", "")
-    if dest != "ZA":
-        return JSONResponse({"decision": "BLOCKED", "reason": f"Data residency violation: {dest}"})
-    return JSONResponse({"decision": "ALLOWED", "reason": "Within South Africa"})
+def check(body: dict):
+    return {"decision": "BLOCKED" if body.get("destination_country")=="US" else "ALLOWED"}
 
 @app.get("/")
-def root():
-    return {"status": "Border active. POST to /check"}
+def home():
+    return FileResponse("dashboard.html")
