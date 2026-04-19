@@ -2,7 +2,7 @@
 
 Live API that enforces South African data residency (POPIA).
 
-**Live Demo:** https://urban-space-barnacle-77999grwrx5whpj67-8001.app.github.dev/
+**Live Demo:** https://sov-plug-demo.onrender.com/docs
 
 **POST** `/check`
 - `{"destination_country":"US"}` → `{"decision":"BLOCKED"}`
