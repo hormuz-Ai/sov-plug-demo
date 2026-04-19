@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Sovereignty Plug – Live Demo</title>
+  <style>
+    body{font-family:system-ui;background:#0a0a0a;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;height:100vh;margin:0}
+    .card{background:#111;padding:40px;border-radius:16px;border:1px solid #333;text-align:center;max-width:400px}
+    h1{margin:0 0 10px;font-size:24px}
+    p{color:#aaa;margin:0 0 30px}
+    button{padding:15px 30px;margin:10px;border:none;border-radius:8px;font-size:16px;cursor:pointer;width:100%}
+    .us{background:#dc2626;color:white}
+    .za{background:#16a34a;color:white}
+    #result{margin-top:20px;padding:20px;border-radius:8px;font-weight:bold;min-height:60px;display:flex;align-items:center;justify-content:center}
+    .blocked{background:#450a0a;color:#fca5a5;border:1px solid #dc2626}
+    .allowed{background:#052e16;color:#86efac;border:1px solid #16a34a}
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>🇿🇦 Sovereignty Plug</h1>
+    <p>Live data border enforcement</p>
+    <button class="us" onclick="check('US')">Send to US → BLOCK</button>
+    <button class="za" onclick="check('ZA')">Send to ZA → ALLOW</button>
+    <div id="result">Click a button to test</div>
+  </div>
+  <script>
+    async function check(country){
+      const r = document.getElementById('result');
+      r.textContent = 'Checking...';
+      r.className = '';
+      try{
+        const res = await fetch('/check',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({destination_country:country})});
+        const data = await res.json();
+        r.textContent = data.decision;
+        r.className = data.decision==='BLOCKED'?'blocked':'allowed';
+      }catch(e){ r.textContent='API offline – run uvicorn'; }
+    }
+  </script>
+</body>
+</html>
