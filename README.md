@@ -1,10 +1,9 @@
-mkdir policy && cd policy
-cat > data_residency.rego << 'EOF'
-package data
+# Sovereignty Plug – Data Border Demo
 
-deny[msg] {
-  input.destination_country!= "ZA"
-    msg := sprintf("BLOCKED: data attempted to leave South Africa to %v", [input.destination_country])
-    }
-    EOF
-    ./opa eval -d data_residency.rego -i <(echo '{"destination_country":"US"}') "data.deny"
+Live API that enforces South African data residency.
+
+**POST** /check
+{"destination_country":"US"} → {"decision":"BLOCKED"}
+{"destination_country":"ZA"} → {"decision":"ALLOWED"}
+
+Built in 3 hours to prove POPIA compliance for Liquid C2 and African banks.
